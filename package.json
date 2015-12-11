@@ -22,6 +22,12 @@
 	},
 	"devDependencies": {
 		"mocha": "^2.3.4",
-		"should": "^7.1.1"
+		"should": "^7.1.1",
+		"browserify": "*",
+		"watchify": "*"
+	},
+	"scripts": {
+	  "build": "browserify -r ./firefoxos.js:bundle -o lib/bundle.js",
+	  "watch": "watchify -r ./firefoxos.js:bundle -o lib/bundle.js --debug --verbose"
 	}
 }

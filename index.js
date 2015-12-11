@@ -2,7 +2,7 @@
 
 var Server = require('./Server'),
 	Connection = require('./Connection'),
-	net = require('net'),
+	net = require('./net-fxos.js'),
 	tls = require('tls'),
 	url = require('url')
 

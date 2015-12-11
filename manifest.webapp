@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "name": "fxos-echo",
+  "description": "Demonstrates how to use permissions to load remote content",
+  "launch_path": "/samples/fxos/echo.html",
+  "icons": {
+    "16":  "/samples/fxos/128.png",
+    "48":  "/samples/fxos/128.png",
+    "128": "/samples/fxos/128.png"
+  },
+  "developer": {
+    "name": "Your name",
+    "url": "http://example.com"
+  },
+  "type": "privileged",
+  "permissions": {
+    "tcp-socket": {
+      "description": "Required to load remote content"
+    }
+  },
+  "installs_allowed_from": [
+    "*"
+  ]
+}

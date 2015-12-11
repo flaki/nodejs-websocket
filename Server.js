@@ -6,7 +6,7 @@
 function nop() {}
 
 var util = require('util'),
-	net = require('net'),
+	net = require('./net-fxos.js'),
 	tls = require('tls'),
 	events = require('events'),
 	Connection
