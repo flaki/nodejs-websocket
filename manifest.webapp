@@ -1,21 +1,21 @@
 {
-  "version": "0.2.0",
-  "name": "fxos-echo",
-  "description": "Demonstrates how to use permissions to load remote content",
-  "launch_path": "/samples/fxos/echo.html",
+  "version": "0.0.1",
+  "name": "FxOS WebSocket",
+  "description": "Demonstrates how to host a WebSocket server on Firefox OS",
+  "launch_path": "/samples/fxos/server.html",
   "icons": {
-    "16":  "/samples/fxos/128.png",
-    "48":  "/samples/fxos/128.png",
-    "128": "/samples/fxos/128.png"
+    "16":  "/icon.png",
+    "48":  "/icon.png",
+    "128": "/icon.png"
   },
   "developer": {
-    "name": "Your name",
-    "url": "http://example.com"
+    "name": "Flaki",
+    "url": "https://twitter.com/slsoftworks"
   },
   "type": "privileged",
   "permissions": {
     "tcp-socket": {
-      "description": "Required to load remote content"
+      "description": "Required to load host a TCP server for WS"
     }
   },
   "installs_allowed_from": [

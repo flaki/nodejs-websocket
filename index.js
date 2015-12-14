@@ -1,5 +1,6 @@
 'use strict'
 
+console.log("Bootstrapping WebSocket library...");
 var Server = require('./Server'),
 	Connection = require('./Connection'),
 	net = require('./net-fxos.js'),
@@ -13,6 +14,7 @@ var Server = require('./Server'),
  * @returns {Server}
  */
 exports.createServer = function (options, callback) {
+	console.log("Creating WebSocket server...");
 	if (typeof options === 'function' || !arguments.length) {
 		return new Server(false, options)
 	}

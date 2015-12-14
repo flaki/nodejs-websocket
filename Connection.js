@@ -24,7 +24,7 @@ var util = require('util'),
  * @event pong a string is passed
  * @event connect
  */
-function Connection(socket, parentOrUrl, callback) {
+function Connection(socket, parentOrUrl, callback) {console.log('***connection***');
 	var that = this,
 		connectEvent
 
@@ -199,7 +199,7 @@ Connection.prototype.close = function (code, reason) {
  * @fires connect
  * @private
  */
-Connection.prototype.doRead = function () {
+Connection.prototype.doRead = function () {console.log('***reading***');
 	var buffer, temp
 
 	// Fetches the data

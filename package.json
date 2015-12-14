@@ -28,6 +28,7 @@
 	},
 	"scripts": {
 	  "build": "browserify -r ./firefoxos.js:bundle -o lib/bundle.js",
-	  "watch": "watchify -r ./firefoxos.js:bundle -o lib/bundle.js --debug --verbose"
+	  "watch": "watchify -r ./firefoxos.js:bundle -o lib/bundle.js --debug --verbose",
+		"watch-echo": "watchify -r ./firefoxos-echo.js:bundle -o lib/echo.js --debug --verbose"
 	}
 }

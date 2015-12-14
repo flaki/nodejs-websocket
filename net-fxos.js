@@ -2,9 +2,10 @@ var events = require('events');
 var util = require('util');
 
 
-function Server() {
+function Server(callback) {
   // Events:
   // close, connection, error, listening
+  this._callback = callback;
 }
 
 util.inherits(Server, events.EventEmitter);
@@ -22,6 +23,10 @@ Server.prototype.listen = function(port, callback) {
   this._server.onconnect = function (connectEvent) {
     console.log("New Socket connection on ", server._port);
     var socket = new Socket(connectEvent);
+
+    if (server._callback) {
+      server._callback(socket);
+    }
 
     if (callback) {
       callback(socket);
@@ -55,31 +60,61 @@ function Socket(options) {
   this._socket.ondata = function (event) {
     var data = event.data;
 
-    console.log(" >> ", data);
-    socket.emit("data", data);
+    console.log(" >> ");
+    socket._buffer = data;
+    socket.emit('readable');
+
+    console.log(" >> ", data.buffer ? data.buffer : data, arrayBufferToString(data));
+    socket.emit("data", new Buffer(data));
   }
 }
 
 util.inherits(Socket, events.EventEmitter);
+
+Socket.prototype.read = function() {
+  if (!this._buffer) {
+    console.log('no data in read buffer yet!');
+    return null;
+  }
+
+  var buffer = new Buffer(this._buffer);
+  this._buffer = null;
+  return buffer;
+}
 
 Socket.prototype.write = function (data, encoding, callback) {
   if (typeof callback === 'undefined') {
     // TODO: optional
     if (typeof encoding === 'undefined') {
       // TODO: optional
+    } else if (typeof encoding === 'function') {
+      callback = encoding;
     }
   }
 
-  console.log(" << ", data);
-  this._socket.send(data);
+  if (typeof data === "string") {
+    console.log("Converting string data...");
+    data = new TextEncoder("utf-8").encode(data).buffer;
+  }
+
+  console.log(" << ", data.buffer ? data.buffer : data, arrayBufferToString(data));
+
+  this._socket.send(data.buffer ? data.buffer : data);
+
+  if (callback) {
+      callback();
+  }
 }
 
+Socket.prototype.end = function (data, encoding) {
+  this.write(data, encoding);
+}
 
 function connect(port,host,callback) {
   // TODO: net.connect([options][, connectListener])
 }
-function createServer(callback) {
-  var server = new Server();
+function createServer(options, callback) {
+  var server = new Server(callback);
 
   // TODO: net.createServer([options][, connectionListener])
   return server;
@@ -92,3 +127,8 @@ module.exports = {
   createServer: createServer,
   connect: connect
 };
+
+
+function arrayBufferToString(buf) {
+  return String.fromCharCode.apply(null, new Uint8Array(buf)).replace(/\r/g,'\\r').replace(/\n/g,'\\n');
+}
