@@ -29,6 +29,8 @@
 	"scripts": {
 	  "build": "browserify -r ./firefoxos.js:bundle -o lib/bundle.js",
 	  "watch": "watchify -r ./firefoxos.js:bundle -o lib/bundle.js --debug --verbose",
-		"watch-echo": "watchify -r ./firefoxos-echo.js:bundle -o lib/echo.js --debug --verbose"
+		"watch-echo": "watchify -r ./firefoxos-echo.js:bundle-echo -o lib/echo.js --debug --verbose",
+		"watch-remote": "watchify -r ./firefoxos-remote.js:bundle -o lib/remote.js --debug --verbose",
+		"prod": "browserify ./firefoxos-remote.js -o ../webgl-quake3/js/remote.js"
 	}
 }

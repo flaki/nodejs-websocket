@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>FirefoxOS WS Remote</title>
+<script>
+var connection;
+window.addEventListener("load", function () {
+	connection = new WebSocket("ws://"+window.location+":8080");
+
+	connection.onopen = function () {
+		setInterval(function() {
+			connection.send( controls() );
+		},250);
+	}
+	connection.onclose = function () {
+		alert("Disconnected");
+	}
+	connection.onerror = function (error) {
+		alert("Connection error: ", error);
+	}
+	connection.onmessage = function (event) {
+		alert(event.data);
+	}
+});
+function controls() {
+
+}
+</script>
+<style>
+html, body, #controller {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+body {
+	background-color: orange;
+}
+</head>
+
+<body>
+<canvas id="controller"></canvas>
+</body>
+</html>

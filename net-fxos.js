@@ -21,7 +21,7 @@ Server.prototype.listen = function(port, callback) {
   });
 
   this._server.onconnect = function (connectEvent) {
-    console.log("New Socket connection on ", server._port);
+    console.log("[mozTCPSocket] connection on :"+server._port);
     var socket = new Socket(connectEvent);
 
     if (server._callback) {
@@ -36,10 +36,11 @@ Server.prototype.listen = function(port, callback) {
   };
 
   this._server.onerror = function (err) {
-    console.log("error creating server",err);
+    console.log("[mozTCPSocket] error creating server! ", err);
   };
 
-  server.emit("Listening on ", server.localPort);
+  server.emit("listening");
+  console.log("[mozTCPSocket] listening on :"+server._server.localPort);
   return server;
 };
 
@@ -73,7 +74,7 @@ util.inherits(Socket, events.EventEmitter);
 
 Socket.prototype.read = function() {
   if (!this._buffer) {
-    console.log('no data in read buffer yet!');
+    console.log('[mozTCPSocket] no data in read buffer yet!');
     return null;
   }
 
@@ -93,8 +94,7 @@ Socket.prototype.write = function (data, encoding, callback) {
   }
 
   if (typeof data === "string") {
-    console.log("Converting string data...");
-    data = new TextEncoder("utf-8").encode(data).buffer;
+    data = str2ab(data);
   }
 
   console.log(" << ", data.buffer ? data.buffer : data, arrayBufferToString(data));
@@ -120,7 +120,7 @@ function createServer(options, callback) {
   return server;
 }
 
-console.log("Using `net-fxos`...");
+console.log("[net-fxos] starting up...");
 module.exports = {
   //Server: Server, // no need to expose this
   Socket: Socket,
@@ -131,4 +131,10 @@ module.exports = {
 
 function arrayBufferToString(buf) {
   return String.fromCharCode.apply(null, new Uint8Array(buf)).replace(/\r/g,'\\r').replace(/\n/g,'\\n');
+}
+function str2ab(string) {
+  return new TextEncoder("utf-8").encode(string);
+}
+function ab2str(arraybuffer) {
+  return new TextDecoder("utf-8").decode(arraybuffer);
 }
